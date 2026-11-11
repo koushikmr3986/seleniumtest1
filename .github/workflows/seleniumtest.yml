@@ -1,0 +1,40 @@
+name: Selenium Java Tests
+
+on:
+  push:
+    branches: [ "main" ]
+
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  selenium-test:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # 1. Checkout source code
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      # 2. Set up JDK 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      # 3. Set up Chrome
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      # 4. Verify Java and Chrome
+      - name: Verify Java and Chrome
+        run: |
+          java -version
+          google-chrome --version
+
+      # 5. Run Selenium tests
+      - name: Run Selenium tests
+        run: mvn clean test

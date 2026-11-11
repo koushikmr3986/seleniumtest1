@@ -1,6 +1,6 @@
 package seleniumtest1;
 import java.io.File;
-
+import org.openqa.selenium.chrome.ChromeOptions; 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -18,15 +18,31 @@ public class LocalLoginTest {
     @BeforeMethod
     public void setUp() {
 
-        driver = new ChromeDriver();
+        // 1. Create ChromeOptions
+        ChromeOptions options = new ChromeOptions();
 
-        driver.manage().window().maximize();
+        // 2. Enable headless mode
+        options.addArguments("--headless=new");
 
+        // 3. Disable sandbox
+        options.addArguments("--no-sandbox");
+
+        // 4. Disable shared memory issues
+        options.addArguments("--disable-dev-shm-usage");
+
+        // 5. Set browser window size
+        options.addArguments("--window-size=1920,1080");
+
+        // 6. Launch Chrome browser
+        driver = new ChromeDriver(options);
+
+        // 7. Get HTML file path
         String page = new File("webpage/login.html")
                 .getAbsoluteFile()
                 .toURI()
                 .toString();
 
+        // 8. Open the webpage
         driver.get(page);
     }
 
